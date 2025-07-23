@@ -45,8 +45,8 @@ const Verify = () => {
         Verify Certificate
       </h1>
 
-      <div className="card bg-white shadow-xl p-6 w-full max-w-lg rounded-lg">
-        <label className="block text-lg font-semibold mb-2">
+      <div className="card bg-slate-800 shadow-xl p-6 w-full max-w-lg rounded-lg">
+        <label className="block text-lg font-semibold mb-2 text-white">
           Enter Certificate ID:
         </label>
         <input
@@ -64,7 +64,7 @@ const Verify = () => {
           {loading ? "Verifying..." : "Verify"}
         </button>
 
-        {error && <p className="text-red-500 mt-3 text-center">{error}</p>}
+        {error && <p className="text-red-300 mt-3 text-center">{error}</p>}
 
         {certificateData && (
           <div className="mt-6 p-4 bg-amber-500 border-l-4 border-green-500 rounded-lg">
