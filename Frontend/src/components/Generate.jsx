@@ -175,10 +175,10 @@ const Generate = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-200 p-6">
-      <h1 className="text-4xl font-bold text-center mb-6">Generate Certificate</h1>
+      <h1 className="text-4xl font-bold text-center mb-6 text-primary">Generate Certificate</h1>
 
-      <div className="card bg-white shadow-lg p-6 w-full max-w-md">
-        <label className="block text-lg font-semibold mb-2">Name:</label>
+      <div className="card bg-slate-800 shadow-lg p-6 w-full max-w-md">
+        <label className="block text-lg font-semibold mb-2 text-white">Name:</label>
         <input
           type="text"
           className="input input-bordered w-full"
@@ -187,7 +187,7 @@ const Generate = () => {
           placeholder="Enter recipient's name"
         />
 
-        <label className="block text-lg font-semibold mt-4 mb-2">Email:</label>
+        <label className="block text-lg font-semibold mt-4 mb-2 text-white">Email:</label>
         <input
           type="email"
           className="input input-bordered w-full"
@@ -196,7 +196,7 @@ const Generate = () => {
           placeholder="Enter recipient's email"
         />
 
-        <label className="block text-lg font-semibold mt-4 mb-2">Certificate Type:</label>
+        <label className="block text-lg font-semibold mt-4 mb-2 text-white">Certificate Type:</label>
         <select
           className="select select-bordered w-full"
           value={certificateType}
@@ -207,7 +207,7 @@ const Generate = () => {
           <option value="Excellence">Excellence</option>
           <option value="Achievement">Achievement</option>
         </select>
-        <label className="block text-lg font-semibold mt-4 mb-2">Upload Certificate Background:</label>
+        <label className="block text-lg font-semibold mt-4 mb-2 text-white">Upload Certificate Background:</label>
         <input
           type="file"
           accept="image/*"
@@ -224,7 +224,7 @@ const Generate = () => {
           {loading ? "Generating..." : "Generate Certificate"}
         </button>
 
-        {message && <p className="text-green-600 mt-4">{message}</p>}
+        {message && <p className="text-green-200 mt-4">{message}</p>}
       </div>
 
       {/* Certificate Preview Modal */}

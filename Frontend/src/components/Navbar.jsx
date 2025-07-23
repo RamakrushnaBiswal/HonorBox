@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,24 +46,39 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar bg-neutral text-neutral-content px-6">
+      <div className="navbar bg-black/60 text-neutral-content px-6 py-4 fixed top-0 left-0 right-0 z-50 backdrop-blur-md">
         <div className="flex-1">
-          <a className="text-xl font-bold flex gap-2" href="/"> <img src="./honorbo logo.png" alt="" className="w-10" />HonorBox</a>
+          <a className="text-xl align-middle font-bold flex gap-4 h-10 items-center" href="/"> <img src="./honorbo logo.png" alt="HonorBox Logo" className="h-16" />HonorBox</a>
         </div>
         <div className="hidden lg:flex items-center gap-4">
-          <ul className="menu menu-horizontal ">
-            <li><a className="text-primary" href="/">Home</a></li>
+          <ul className="menu menu-horizontal gap-4">
+            <li><a className="text-white text-lg" href="/">Home</a></li>
+            <li>
+              {user ? (
+                <Link to="/generate" className="text-white text-lg">
+                  Generate Certificate
+                </Link>
+              ) : (
+                <button
+                  className="text-white text-lg"
+                  onClick={() => alert("Please log in to generate certificates.")}
+                >
+                  Generate Certificate
+                </button>
+              )}
+            </li>
+            <li><Link to="/verify" className="text-white text-lg">Verify Certificate</Link></li>
             {user ? (
               <>
-                <li className="text-white mx-9 justify-center font-semibold" >{user.name}</li>
+                <li><Link className="text-white text-lg" >{user?.name}</Link></li>
                 <li>
-                  <button className="btn btn-error" onClick={handleLogout}>Logout</button>
+                  <button className="text-lg btn btn-error px-10" onClick={handleLogout}>Logout</button>
                 </li>
               </>
             ) : (
               <li>
                 <button 
-                  className="hover:text-primary" 
+                  className="text-lg btn btn-primary px-10 " 
                   onClick={() => setIsModalOpen(true)}
                 >
                   Login
@@ -72,23 +87,39 @@ const Navbar = () => {
             )}
           </ul>
         </div>
+
         {/* Mobile Menu */}
         <div className="dropdown dropdown-end lg:hidden">
-          <label tabIndex={0} className="btn btn-ghost">
+          <label tabIndex={0} className="btn btn-ghost text-xl">
             ☰
           </label>
           <ul tabIndex={0} className="menu dropdown-content mt-3 p-2 shadow bg-base-200 rounded-box w-52">
             <li><a href="/" className="justify-center my-2">Home</a></li>
+            <li>
+              {user ? (
+                <Link to="/generate" className="justify-center my-2">
+                  Generate Certificate
+                </Link>
+              ) : (
+                <button
+                  className="justify-center my-2"
+                  onClick={() => alert("Please log in to generate certificates.")}
+                >
+                  Generate Certificate
+                </button>
+              )}
+            </li>
+            <li><Link to="/verify" className="justify-center my-2">Verify Certificate</Link></li>
             {user ? (
               <>
-                <li className="text-white font-semibold text-center my-2">{user.name}</li>
+                <li><Link className="justify-center my-2">{user.name}</Link></li>
                 <li>
                   <button className="btn btn-error btn-md" onClick={handleLogout}>Logout</button>
                 </li>
               </>
             ) : (
               <li>
-                <button onClick={() => setIsModalOpen(true)}>Login</button>
+                <a className="justify-center my-2 btn btn-primary" onClick={() => setIsModalOpen(true)}>Login</a>
               </li>
             )}
           </ul>
