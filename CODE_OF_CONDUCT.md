@@ -45,7 +45,7 @@ Representation of a project may include use of an official project email address
 
 ## 🚨 Enforcement
 
-If you experience or witness unacceptable behavior, please report it by opening a GitHub issue or privately contacting the maintainers.
+If you experience or witness unacceptable behavior, please report it privately by contacting the maintainers.
 
 All project maintainers are obligated to respect the privacy and security of the reporter of any incident.
 
