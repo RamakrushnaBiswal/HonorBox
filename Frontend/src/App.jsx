@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Verify from "./components/Verify";
 import NotFound from "./components/NotFound";
 import DarkVeil from "./components/DarkVeil";
+import About from './components/About';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/generate" element={<Generate />} />
             <Route path="/verify" element={<Verify />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/about" element={<About/>} />
           </Routes>
         </Router>
       </div>
