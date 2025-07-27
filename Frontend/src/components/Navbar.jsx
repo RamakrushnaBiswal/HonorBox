@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaBars, FaTimes } from "react-icons/fa";
-import "./custom.css"; 
+import "./custom.css";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,6 +15,42 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigate = useNavigate();
+
+  // Check for JWT token on component mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && !user) {
+      // Verify JWT token
+      verifyToken(token);
+    }
+  }, []);
+
+  const verifyToken = async (token) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/verify-token`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.user);
+        localStorage.setItem("user", JSON.stringify(data.user));
+      } else {
+        // Token is invalid, remove it
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
+    } catch (error) {
+      console.error("Token verification error:", error);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+    }
+  };
+
   const saveUserToDB = async (userData) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/user`, {
@@ -45,6 +81,7 @@ const Navbar = () => {
     googleLogout();
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     window.location.reload();
   };
 
@@ -64,7 +101,7 @@ const Navbar = () => {
           style={{ fontFamily: 'Inter, Poppins, sans-serif' }}
         >
           <a href="/" className="flex items-center gap-2 text-white text-xl font-semibold select-none">
-            <img src="/honorbo logo.png" alt="logo" className="w-10 h-10 object-contain rounded-full bg-transparent" style={{background: 'none'}} />
+            <img src="/honorbo logo.png" alt="logo" className="w-10 h-10 object-contain rounded-full bg-transparent" style={{ background: 'none' }} />
             <span className="font-bold tracking-tight">HonorBox</span>
           </a>
           <div className="hidden md:flex items-center gap-6">
@@ -80,12 +117,20 @@ const Navbar = () => {
                 <button className="btn btn-error btn-sm" onClick={handleLogout}>Logout</button>
               </>
             ) : (
-              <button
-                className="text-white font-semibold text-base px-2 py-1 transition-transform duration-150 hover:scale-105 hover:underline underline-offset-8"
-                onClick={() => setIsModalOpen(true)}
-              >
-                Login
-              </button>
+              <div className="flex items-center gap-4">
+                <Link
+                  to="/signin"
+                  className="text-white font-semibold text-base px-4 py-2 rounded-lg transition-all duration-300 hover:bg-white/10 hover:scale-105"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-gradient-to-r from-blue-600 to-violet-600 text-white font-semibold text-base px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                >
+                  Sign Up
+                </Link>
+              </div>
             )}
           </div>
           <div className="md:hidden flex items-center">
@@ -123,27 +168,23 @@ const Navbar = () => {
                 <button className="btn btn-error btn-sm w-full" onClick={() => { setMobileMenuOpen(false); handleLogout(); }}>Logout</button>
               </>
             ) : (
-              <button
-                className="text-white font-semibold text-lg py-2 px-2 rounded transition hover:bg-white/10 w-full text-left"
-                onClick={() => { setMobileMenuOpen(false); setIsModalOpen(true); }}
-              >
-                Login
-              </button>
+              <div className="flex flex-col gap-2 w-full">
+                <Link
+                  to="/signin"
+                  className="text-white font-semibold text-lg py-3 px-2 rounded transition hover:bg-white/10 w-full text-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-gradient-to-r from-blue-600 to-violet-600 text-white font-semibold text-lg py-3 px-2 rounded transition hover:scale-105 w-full text-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </div>
             )}
-          </div>
-        </div>
-      )}
-
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50 p-4">
-          <div className="bg-white p-6 md:p-8 flex justify-center flex-col rounded-lg shadow-lg w-full max-w-sm sm:max-w-md md:max-w-lg">
-            <h2 className="text-lg md:text-xl font-bold mb-4 text-amber-500 text-center">Login</h2>
-            <div className="flex justify-center">
-              <GoogleLogin onSuccess={handleLoginSuccess} onFailure={(err) => console.log(err)} />
-            </div>
-            <div className="flex justify-center mt-6">
-              <button className="btn btn-primary w-full sm:w-auto" onClick={() => setIsModalOpen(false)}>Close</button>
-            </div>
           </div>
         </div>
       )}

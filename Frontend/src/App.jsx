@@ -6,6 +6,8 @@ import Verify from "./components/Verify";
 import NotFound from "./components/NotFound";
 import DarkVeil from "./components/DarkVeil";
 import About from './components/About';
+import SignUp from './components/SignUp';
+import SignIn from './components/SignIn';
 
 function App() {
   return (
@@ -20,8 +22,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/generate" element={<Generate />} />
             <Route path="/verify" element={<Verify />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="/about" element={<About/>} />
           </Routes>
         </Router>
       </div>
