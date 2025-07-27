@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
+@font-face {
+  font-family: 'Amerika Sans';
+  src: url('../assets/fonts/AMERSN__.ttf') format('truetype'),
+       url('/src/assets/fonts/AMERSN__.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 .drop-shadow-glow {
     filter: drop-shadow(0 0 8px #a78bfa) drop-shadow(0 0 2px #fff);
   }

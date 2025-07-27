@@ -10,7 +10,7 @@ const Footer = () => {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <div className="w-full max-w-4xl mx-auto rounded-2xl bg-[rgba(255,255,255,0.10)] backdrop-blur-md border border-[rgba(180,120,255,0.18)] shadow-[0_4px_32px_0_rgba(80,80,180,0.10)] px-6 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div className="w-full max-w-4xl mx-auto rounded-2xl bg-[rgba(33, 16, 66, 0.10)] backdrop-blur-md border border-[rgba(180,120,255,0.18)] shadow-[0_4px_32px_0_rgba(80,80,180,0.10)] px-6 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
           <span className="text-white text-lg font-bold tracking-tight">
             HonorBox
