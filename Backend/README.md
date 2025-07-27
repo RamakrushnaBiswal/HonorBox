@@ -64,6 +64,7 @@ Google Auth user registration & lookup
 ## Tech Stack
 | Tech Stack           | Work                    |
 |----------------------|-------------------------|
+| Node.js / Express.js | Backend API framework   |
 | MongoDB / Mongoose   | NoSQL Database and ORM  |
 |       Joi            |    Schema validation    |
 |      QRCode          |    QR code generation   |
