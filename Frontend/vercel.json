@@ -1,6 +1,3 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
-  "scripts": {
-    "vercel-build": "vite build"
-  }
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
