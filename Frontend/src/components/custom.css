@@ -1,26 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@font-face {
+  font-family: 'Amerika Sans';
+  src: url('../assets/fonts/AMERSN__.ttf') format('truetype'),
+       url('/src/assets/fonts/AMERSN__.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Custom Tailwind utilities */
+.font-amerika {
+  font-family: 'Amerika Sans', system-ui, sans-serif;
+}
+
+.font-inter {
+  font-family: 'Inter', system-ui, sans-serif;
+}
 
 .drop-shadow-glow {
-    filter: drop-shadow(0 0 8px #a78bfa) drop-shadow(0 0 2px #fff);
+  filter: drop-shadow(0 0 8px #a78bfa) drop-shadow(0 0 2px #fff);
+}
+
+/* Responsive typography utilities */
+@media (max-width: 640px) {
+  .text-hero {
+    font-size: clamp(3rem, 8vw, 12rem);
   }
-  
-  @media (max-width: 600px) {
-    nav > div {
-      padding-left: 1rem;
-      padding-right: 1rem;
-      gap: 1rem;
-    }
-    .text-xl {
-      font-size: 1.1rem;
-    }
-    .w-10 {
-      width: 2rem;
-      height: 2rem;
-    }
-    .gap-6 {
-      gap: 1rem;
-    }
+  .text-hero-subtitle {
+    font-size: clamp(1.125rem, 4vw, 2rem);
   }
+}
+
+@media (min-width: 641px) {
+  .text-hero {
+    font-size: clamp(8rem, 12vw, 12.5rem);
+  }
+  .text-hero-subtitle {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+}
   
   .footer-link {
     text-decoration: none;
@@ -48,10 +67,191 @@
     font-family: 'Inter', sans-serif;
   }
 
+/* Animation utilities */
 .animate-fade-in-up {
   animation: fadeInUp 0.7s cubic-bezier(.39,.575,.565,1) both;
 }
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s cubic-bezier(.39,.575,.565,1) both;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.8s cubic-bezier(.39,.575,.565,1) both;
+}
+
+.animate-bounce-gentle {
+  animation: bounceGentle 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* Keyframes */
 @keyframes fadeInUp {
   0% { opacity: 0; transform: translateY(30px); }
   100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  0% { opacity: 0; transform: translateX(-50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  0% { opacity: 0; transform: translateX(50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounceGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 20px rgba(167, 139, 250, 0.3); }
+  100% { box-shadow: 0 0 30px rgba(167, 139, 250, 0.6); }
+}
+
+/* Hover effects */
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(167, 139, 250, 0.5);
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}
+
+/* Consistent spacing utilities */
+.section-padding {
+  padding: 4rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .section-padding {
+    padding: 5rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding: 6rem 4rem;
+  }
+}
+
+.container-max {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.grid-equal {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 640px) {
+  .grid-equal {
+    gap: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-equal {
+    gap: 3rem;
+  }
+}
+
+/* Enhanced card styling - less boxy */
+.card-base {
+  min-height: 280px;
+  padding: 2rem;
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .card-base {
+    min-height: 320px;
+    padding: 2.5rem;
+    border-radius: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-base {
+    min-height: 360px;
+    padding: 3rem;
+    border-radius: 3rem;
+  }
+}
+
+/* Modern card variations */
+.card-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.card-elevated {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.05);
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.card-elevated:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Organic shapes and curves */
+.shape-organic {
+  border-radius: 2rem 3rem 2rem 3rem;
+}
+
+.shape-curved {
+  border-radius: 3rem 1rem 3rem 1rem;
+}
+
+.shape-wave {
+  border-radius: 4rem 2rem 4rem 2rem;
+}
+
+/* Typography consistency */
+.heading-primary {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.heading-secondary {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.text-body {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.6;
+}
+
+.text-small {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  line-height: 1.5;
 }
