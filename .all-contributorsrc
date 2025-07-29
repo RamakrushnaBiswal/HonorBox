@@ -62,6 +62,16 @@
         "doc",
         "code"
       ]
+    },
+    {
+      "login": "sagarc123",
+      "name": "Sagar Chavan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/134862057?v=4",
+      "profile": "https://github.com/sagarc123",
+      "contributions": [
+        "code",
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
