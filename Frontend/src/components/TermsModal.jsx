@@ -1,12 +1,30 @@
-TermsModal.jsx
-
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 export default function TermsModal({ isOpen, onClose }) {
   if (!isOpen) return null;
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      onClick = {onClose}
+      >
       <motion.div
         className="relative bg-white text-black rounded-2xl shadow-lg max-w-2xl w-full mx-4 p-6 overflow-y-auto max-h-[80vh] border border-purple-300"
         initial={{ scale: 0.8, opacity: 0 }}
@@ -42,11 +60,13 @@ export default function TermsModal({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Optional close button top-right */}
         <button
+          type="button"          
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-xl"
+           onKeyDown={(e) => e.key === 'Escape' && onClose()}
+          className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 rounded"
           aria-label="Close"
+          autoFocus
         >
           ×
         </button>
