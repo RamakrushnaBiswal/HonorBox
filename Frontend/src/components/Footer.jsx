@@ -1,13 +1,16 @@
 import { motion, useInView } from "framer-motion";
 import { FaGithub, FaCertificate } from "react-icons/fa";
 import { useRef, useState } from "react";
+import TermsModal from "./TermsModal";
 
 const Footer = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
   const [hoveredLink, setHoveredLink] = useState(null);
+  const [showTerms, setShowTerms] = useState(false);
 
   return (
+    <>
     <motion.footer 
       ref={ref}
       className="w-full flex flex-col items-center justify-center mt-16 relative"
@@ -151,8 +154,15 @@ const Footer = () => {
               onHoverStart={() => setHoveredLink('terms')}
               onHoverEnd={() => setHoveredLink(null)}
             >
+              <button
+              onClick={() => setShowTerms(true)}
+              className="footer-link text-white/90 hover:text-blue-400 transition"
+            >
               Terms
+            </button>
             </motion.a>
+            
+            
             <motion.span 
               className="text-white/40"
               animate={{ opacity: [0.4, 0.8, 0.4] }}
@@ -256,6 +266,9 @@ const Footer = () => {
         />
       </motion.div>
     </motion.footer>
+    
+    <TermsModal isOpen={showTerms} onClose={() => setShowTerms(false)} />
+    </>
   );
 };
 
