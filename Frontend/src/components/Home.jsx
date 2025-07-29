@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { FaFileAlt, FaCertificate, FaShieldAlt, FaMagic, FaGithub } from "react-icons/fa";
-import {useEffect } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import "./custom.css";
 import Footer from "./Footer";
+import { isAuthenticated } from "../utils/auth";
 
 const fontUrl = "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap";
 
@@ -36,7 +37,7 @@ const Home = () => {
     };
   }, []);
 
-  const user = localStorage.getItem("user");
+  const authenticated = isAuthenticated();
   return (
     <div
       style={{
@@ -77,8 +78,7 @@ const Home = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
           >
-            {/*check here */}
-            {user ? (
+            {authenticated ? (
               <Link
                 to="/generate"
                 className="px-7 py-3 rounded-full bg-white text-black text-lg font-medium font-[Inter] shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center gap-2"
@@ -87,13 +87,13 @@ const Home = () => {
                 <FaFileAlt className="text-2xl" /> Generate Certificate
               </Link>
             ) : (
-              <button
-                onClick={() => alert("Please log in to generate certificates.")}
+              <Link
+                to="/signin"
                 className="px-7 py-3 rounded-full bg-white text-black text-lg font-medium font-[Inter] shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center gap-2"
                 tabIndex={0}
               >
                 <FaFileAlt className="text-2xl" /> Generate Certificate
-              </button>
+              </Link>
             )}
 
             <Link
