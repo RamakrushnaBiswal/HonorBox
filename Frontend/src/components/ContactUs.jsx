@@ -11,6 +11,11 @@ export default function ContactUs() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    if(!form.name.trim() || !form.email.trim() || !form.subject.trim() || !form.message.trim()) {
+       setStatus('Please fill in all fields');
+      return;
+    }
+    
     setStatus('loading');
     try {
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
@@ -23,11 +28,11 @@ export default function ContactUs() {
         setStatus('sent');
         setForm({ name: '', email: '', subject: '', message: '' });
       } else {
-         setStatus(data.error || 'Unknown error');
-  console.error('Form submission failed:', data.error || 'Unknown error');
+         setStatus(`Submission failed: ${data.error || 'Please try again later'}`);
       }
-    } catch {
-      setStatus('error');
+    } catch(error) {
+      setStatus(`Network error: ${error.message}`);
+      console.error('Form submission error:', error);
     }
   };
 
