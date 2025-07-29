@@ -1,11 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback, useMemo, lazy, Suspense } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+
+// Lazy loading component for images
+const LazyCardImage = React.memo(({ src, opacity, isInView, isHovered }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+  }, []);
+
+  const handleImageError = useCallback(() => {
+    setImageError(true);
+  }, []);
+
+  if (!isInView && !imageLoaded) {
+    return (
+      <div 
+        className="absolute inset-0 bg-gray-800/20 animate-pulse"
+        style={{ opacity: opacity }}
+      />
+    );
+  }
+
+  return (
+    <motion.div 
+      className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-300"
+      style={{
+        backgroundImage: imageError ? 'none' : `url(${src})`,
+        opacity: imageLoaded ? opacity : '0',
+        filter: 'blur(0.5px)',
+        willChange: isHovered ? 'transform, opacity' : 'auto'
+      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: imageLoaded ? opacity : 0 }}
+      whileHover={{ scale: 1.05, opacity: '0.18' }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
+      <img
+        src={src}
+        alt="Feature background"
+        onLoad={handleImageLoad}
+        onError={handleImageError}
+        className="opacity-0 absolute"
+        loading="lazy"
+        decoding="async"
+      />
+    </motion.div>
+  );
+});
 
 const FeatureCard = ({ title, description, icon, color, index }) => {
   const [isHovered, setIsHovered] = useState(false);
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, amount: 0.2, margin: "50px" });
   const getCardConfig = () => {
     switch (index % 6) {
       case 0: // Single & Bulk - Red/Maroon
@@ -80,111 +128,81 @@ const FeatureCard = ({ title, description, icon, color, index }) => {
         };
     }
   };
-  const cardConfig = getCardConfig();
-  const cardStyle = {
+  const cardConfig = useMemo(() => getCardConfig(), [index]);
+  const cardStyle = useMemo(() => ({
     backgroundColor: cardConfig.backgroundColor,
     border: cardConfig.border,
     borderColor: cardConfig.borderColor
+  }), [cardConfig]);
+
+  // Optimized animation variants
+  const cardVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 30, 
+      scale: 0.95 
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { 
+        duration: 0.5, 
+        delay: index * 0.1,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const hoverVariants = {
+    scale: 1.02,
+    y: -5,
+    transition: { duration: 0.2, ease: "easeOut" }
   };
 
   return (
     <motion.div 
       ref={ref}
-      className="w-full relative group cursor-pointer rounded-xl overflow-hidden backdrop-blur-md border"
+      className="w-full relative group cursor-pointer rounded-xl overflow-hidden backdrop-blur-sm border transform-gpu"
       style={{
-        background: `linear-gradient(135deg, ${cardStyle.backgroundColor}dd, ${cardStyle.backgroundColor}99, ${cardStyle.backgroundColor}bb)`,
-        borderColor: isHovered ? 'rgba(139, 92, 246, 0.8)' : 'rgba(255, 255, 255, 0.1)',
+        background: `linear-gradient(135deg, ${cardStyle.backgroundColor}dd, ${cardStyle.backgroundColor}99)`,
+        borderColor: isHovered ? 'rgba(139, 92, 246, 0.6)' : 'rgba(255, 255, 255, 0.1)',
         boxShadow: isHovered 
-          ? '0 20px 40px -12px rgba(139, 92, 246, 0.3), 0 0 0 1px rgba(139, 92, 246, 0.2)' 
-          : '0 8px 32px -6px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05)',
+          ? '0 10px 25px -5px rgba(139, 92, 246, 0.25)' 
+          : '0 5px 15px -3px rgba(0, 0, 0, 0.1)',
         minHeight: '250px',
-        aspectRatio: '3/2'
+        aspectRatio: '3/2',
+        willChange: 'transform'
       }}
-      initial={{ opacity: 0, y: 80, scale: 0.8, rotateX: 45 }}
-      animate={isInView ? { 
-        opacity: 1, 
-        y: 0, 
-        scale: 1, 
-        rotateX: 0,
-        transition: { 
-          duration: 1.2, 
-          delay: index * 0.2,
-          ease: [0.25, 0.4, 0.25, 1],
-          type: "spring",
-          stiffness: 100
-        }
-      } : {}}
-      whileHover={{ 
-        scale: 1.05,
-        y: -15,
-        rotateY: 5,
-        transition: { duration: 0.4, ease: "easeOut" }
-      }}
-      whileTap={{ scale: 0.95 }}
+      variants={cardVariants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      whileHover={hoverVariants}
+      whileTap={{ scale: 0.98 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      {/* Animated background particles */}
-      <motion.div 
-        className="absolute inset-0 pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: index * 0.3 + 0.5 }}
-      >
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className={`absolute w-1 h-1 rounded-full ${
-              i % 3 === 0 ? 'bg-purple-400' : i % 3 === 1 ? 'bg-pink-400' : 'bg-blue-400'
-            }`}
-            style={{
-              left: `${20 + (i * 15)}%`,
-              top: `${15 + (i * 12)}%`,
-            }}
-            animate={{
-              y: [0, -10, 0],
-              opacity: [0.3, 0.8, 0.3],
-              scale: [0.8, 1.2, 0.8]
-            }}
-            transition={{
-              duration: 3 + i * 0.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.5
-            }}
-          />
-        ))}
-      </motion.div>
-
-      {/* Enhanced background image with parallax effect */}
-      <motion.div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-700"
-        style={{
-          backgroundImage: `url(${cardConfig.imageSrc})`,
-          opacity: cardConfig.imageOpacity,
-          filter: 'blur(0.5px)'
-        }}
-        whileHover={{ scale: 1.1, opacity: '0.2' }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+      {/* Lazy loaded background image */}
+      <LazyCardImage 
+        src={cardConfig.imageSrc}
+        opacity={cardConfig.imageOpacity}
+        isInView={isInView}
+        isHovered={isHovered}
       />
 
-      {/* Dynamic gradient overlay */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-transparent via-black/5 to-black/20 group-hover:from-transparent group-hover:to-black/10 transition-all duration-500"
-        animate={{
-          background: isHovered 
-            ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1))'
-            : 'linear-gradient(135deg, transparent, rgba(0, 0, 0, 0.2))'
-        }}
-        transition={{ duration: 0.5 }}
+      {/* Simplified gradient overlay */}
+      <div 
+        className={`absolute inset-0 bg-gradient-to-br from-transparent via-black/5 to-black/20 transition-all duration-300 ${
+          isHovered ? 'bg-gradient-to-br from-purple-500/10 to-pink-500/10' : ''
+        }`}
       />
       
-      {/* Subtle top accent line */}
-      <motion.div 
-        className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-400/40 to-transparent"
-        initial={{ scaleX: 0 }}
-        animate={isInView ? { scaleX: 1 } : {}}
-        transition={{ delay: index * 0.2 + 1, duration: 1 }}
+      {/* Simplified top accent line */}
+      <div 
+        className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-400/40 to-transparent transition-all duration-300 ${
+          isInView ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
+        }`}
+        style={{ transformOrigin: 'center' }}
       />
 
       {/* Content container with centered layout */}
