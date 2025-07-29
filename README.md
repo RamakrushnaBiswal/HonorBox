@@ -1,6 +1,6 @@
 # HonorBox
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 **HonorBox** is a free and open-source web-based application that allows users to generate and verify certificates effortlessly. It provides a seamless and secure way to issue digital certificates and validate their authenticity.
@@ -21,6 +21,64 @@
 - **Database:** MongoDB
 - **Authentication:** JWT (JSON Web Tokens)
 - **Deployment:** Vercel / Netlify (Frontend), Heroku / Render (Backend)
+
+[//]: # (Project Folder Structure)
+
+## 📁 Project Structure
+```bash
+HonorBox/
+├── Backend/
+│   ├── config/
+│   │   └── db.js
+│   ├── controllers/
+│   │   ├── certificateController.js
+│   │   └── imageController.js
+│   ├── models/
+│   │   ├── Certificate.js
+│   │   ├── Image.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── certificateRoutes.js
+│   │   └── imageRoutes.js
+│   ├── index.js
+│   ├── package.json
+│   ├── README.md
+│   ├── .env
+│   └── .env.example
+├── Frontend/
+│   ├── public/
+│   │   └── honorbo logo.png
+│   ├── src/
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   └── components/
+│   │       ├── About.jsx
+│   │       ├── custom.css
+│   │       ├── DarkVeil.jsx
+│   │       ├── Footer.jsx
+│   │       ├── Generate.jsx
+│   │       ├── Home.jsx
+│   │       ├── Navbar.jsx
+│   │       ├── NotFound.jsx
+│   │       └── Verify.jsx
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── README.md
+│   ├── tailwind.config.js
+│   ├── vercel.json
+│   ├── vite.config.js
+│   └── .env.example
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+└── .all-contributorsrc
+```
 
 ## 📌 Installation
 
@@ -88,6 +146,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/suryssss"><img src="https://avatars.githubusercontent.com/u/176365924?v=4?s=100" width="100px;" alt="Rithwik Surya"/><br /><sub><b>Rithwik Surya</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=suryssss" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/SK8-infi"><img src="https://avatars.githubusercontent.com/u/183415109?v=4?s=100" width="100px;" alt="Shivansh Katiyar"/><br /><sub><b>Shivansh Katiyar</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=SK8-infi" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Charul192"><img src="https://avatars.githubusercontent.com/u/183530152?v=4?s=100" width="100px;" alt="Charul192"/><br /><sub><b>Charul192</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=Charul192" title="Documentation">📖</a> <a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=Charul192" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/gouravKJ"><img src="https://avatars.githubusercontent.com/u/178272532?v=4?s=100" width="100px;" alt="Gourav Kumar Jaiswal"/><br /><sub><b>Gourav Kumar Jaiswal</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/issues?q=author%3AgouravKJ" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/RamakrushnaBiswal"><img src="https://avatars.githubusercontent.com/u/125277258?v=4?s=100" width="100px;" alt="Ramakrushna Biswal"/><br /><sub><b>Ramakrushna Biswal</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=RamakrushnaBiswal" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/AdityaJollyy"><img src="https://avatars.githubusercontent.com/u/140686935?v=4?s=100" width="100px;" alt="Aditya Jolly"/><br /><sub><b>Aditya Jolly</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=AdityaJollyy" title="Documentation">📖</a> <a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=AdityaJollyy" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

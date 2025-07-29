@@ -34,6 +34,34 @@
         "doc",
         "code"
       ]
+    },
+    {
+      "login": "gouravKJ",
+      "name": "Gourav Kumar Jaiswal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/178272532?v=4",
+      "profile": "https://github.com/gouravKJ",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "RamakrushnaBiswal",
+      "name": "Ramakrushna Biswal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/125277258?v=4",
+      "profile": "https://github.com/RamakrushnaBiswal",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "AdityaJollyy",
+      "name": "Aditya Jolly",
+      "avatar_url": "https://avatars.githubusercontent.com/u/140686935?v=4",
+      "profile": "https://github.com/AdityaJollyy",
+      "contributions": [
+        "doc",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
