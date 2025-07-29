@@ -34,6 +34,15 @@
         "doc",
         "code"
       ]
+    },
+    {
+      "login": "gouravKJ",
+      "name": "Gourav Kumar Jaiswal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/178272532?v=4",
+      "profile": "https://github.com/gouravKJ",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
