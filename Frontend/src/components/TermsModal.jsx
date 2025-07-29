@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 
 export default function TermsModal({ isOpen, onClose }) {
-  if (!isOpen) return null;
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
