@@ -58,6 +58,8 @@ export default function ContactUs() {
           rows="5"
           placeholder="Message"
           required
+          maxlength={1000}
+          aria-label="Message"
           value={form.message}
           onChange={handleChange}
           className="w-full p-2 border rounded"
