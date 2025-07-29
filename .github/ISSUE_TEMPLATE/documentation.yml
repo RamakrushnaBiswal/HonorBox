@@ -1,0 +1,118 @@
+name: 📚 Documentation
+description: Report an issue with documentation or suggest improvements
+title: "[DOCS]: "
+labels: ["documentation", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve our documentation! 📚
+        Please provide details about the documentation issue or improvement.
+
+  - type: checkboxes
+    id: existing-issue
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the documentation concern.
+      options:
+      - label: I have searched the existing issues
+        required: true
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation needs attention?
+      options:
+        - README.md
+        - CONTRIBUTING.md
+        - API Documentation
+        - Installation Guide
+        - User Guide
+        - Code Comments
+        - Frontend Documentation
+        - Backend Documentation
+        - Deployment Guide
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      description: What kind of documentation issue is this?
+      options:
+        - Missing Documentation
+        - Incorrect Information
+        - Outdated Information
+        - Unclear Instructions
+        - Broken Links
+        - Typo/Grammar
+        - Formatting Issues
+        - Improvement Suggestion
+        - Translation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-state
+    attributes:
+      label: Current State
+      description: Describe the current state of the documentation
+      placeholder: What is wrong or missing in the current documentation?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested-improvement
+    attributes:
+      label: Suggested Improvement
+      description: Describe what should be changed or added
+      placeholder: How should the documentation be improved?
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Which file or section needs attention?
+      placeholder: e.g., README.md line 45, /docs/api/auth.md, etc.
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or examples here.
+      placeholder: Add any additional information that might be helpful...
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Are you willing to work on this documentation improvement?
+      options:
+      - label: I'd be willing to work on this documentation improvement
+        required: false
+
+  - type: checkboxes
+    id: gssoc
+    attributes:
+      label: GSSoC Participation
+      description: Are you participating in GirlScript Summer of Code?
+      options:
+      - label: I am participating in GSSoC 2025
+        required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

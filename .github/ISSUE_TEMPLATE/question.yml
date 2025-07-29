@@ -1,0 +1,97 @@
+name: ❓ Question
+description: Ask a question about HonorBox
+title: "[QUESTION]: "
+labels: ["question", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question about HonorBox? We're here to help! ❓
+        Please provide as much context as possible.
+
+  - type: checkboxes
+    id: searched
+    attributes:
+      label: Search and Documentation
+      description: Have you searched for existing information?
+      options:
+      - label: I have searched the existing issues and discussions
+        required: true
+      - label: I have read the README.md
+        required: true
+      - label: I have read the CONTRIBUTING.md
+        required: true
+
+  - type: dropdown
+    id: question-type
+    attributes:
+      label: Question Type
+      description: What kind of question do you have?
+      options:
+        - Usage/How-to
+        - Installation/Setup
+        - Configuration
+        - Troubleshooting
+        - Contributing
+        - Feature Understanding
+        - Architecture/Design
+        - Performance
+        - Security
+        - Deployment
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: Please describe your question in detail...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide context about what you're trying to achieve
+      placeholder: What are you trying to do? What have you tried so far?
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment (if relevant)
+      description: Provide environment details if your question is related to setup/installation
+      placeholder: |
+        - OS: [e.g. Windows 11, macOS 13.0, Ubuntu 22.04]
+        - Node.js version: [e.g. 18.17.0]
+        - Browser: [e.g. Chrome 120]
+        - Package manager: [e.g. npm, yarn]
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Add any other context that might be helpful
+      placeholder: Screenshots, error messages, code snippets, etc.
+
+  - type: checkboxes
+    id: gssoc
+    attributes:
+      label: GSSoC Participation
+      description: Are you participating in GirlScript Summer of Code?
+      options:
+      - label: I am participating in GSSoC 2025
+        required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
