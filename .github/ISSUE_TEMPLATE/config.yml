@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/RamakrushnaBiswal/HonorBox/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 🔗 GSSoC Portal
+    url: https://gssoc.girlscript.tech/
+    about: Learn more about GirlScript Summer of Code 2025
