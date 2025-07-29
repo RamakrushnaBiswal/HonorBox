@@ -6,6 +6,7 @@ import Verify from "./components/Verify";
 import NotFound from "./components/NotFound";
 import DarkVeil from "./components/DarkVeil";
 import About from './components/About';
+import ContactUs from './components/ContactUs';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/verify" element={<Verify />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/about" element={<About/>} />
+            <Route path="/contact" element={<ContactUs />} />
           </Routes>
         </Router>
       </div>
