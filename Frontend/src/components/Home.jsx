@@ -88,6 +88,7 @@ const Home = () => {
   }, []);
 
   const user = localStorage.getItem("user");
+  const authenticated = user !== null;
   return (
     <div
       style={{
@@ -195,7 +196,7 @@ const Home = () => {
             animate={isLoaded ? { opacity: 1, scale: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
           >
-            {user ? (
+            {authenticated ? (
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
@@ -217,30 +218,18 @@ const Home = () => {
                     }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
+                  <FaFileAlt className="text-2xl" />
                   <span className="relative z-10">Generate Certificate</span>
                 </Link>
               </motion.div>
             ) : (
-              <motion.button
-                onClick={() => alert("Please log in to generate certificates.")}
-                className="px-7 py-3 rounded-full border border-black bg-white text-black text-lg font-medium font-amerika shadow-lg transition-all duration-300 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center gap-2 relative overflow-hidden"
+              <Link
+                to="/signin"
+                className="px-7 py-3 rounded-full bg-white text-black text-lg font-medium font-[Inter] shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center gap-2"
                 tabIndex={0}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
               >
-                <motion.div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    background: 'linear-gradient(45deg, transparent 30%, rgba(139, 92, 246, 0.2) 50%, transparent 70%)',
-                    backgroundSize: '200% 200%'
-                  }}
-                  animate={{
-                    backgroundPosition: ['0% 0%', '100% 100%']
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-                <span className="relative z-10">Generate Certificate</span>
-              </motion.button>
+                <FaFileAlt className="text-2xl" /> Generate Certificate
+              </Link>
             )}
             <motion.div
               whileHover={{ scale: 1.05 }}
