@@ -22,6 +22,64 @@
 - **Authentication:** JWT (JSON Web Tokens)
 - **Deployment:** Vercel / Netlify (Frontend), Heroku / Render (Backend)
 
+[//]: # (Project Folder Structure)
+
+## 📁 Project Structure
+```bash
+HonorBox/
+├── Backend/
+│   ├── config/
+│   │   └── db.js
+│   ├── controllers/
+│   │   ├── certificateController.js
+│   │   └── imageController.js
+│   ├── models/
+│   │   ├── Certificate.js
+│   │   ├── Image.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── certificateRoutes.js
+│   │   └── imageRoutes.js
+│   ├── index.js
+│   ├── package.json
+│   ├── README.md
+│   ├── .env
+│   └── .env.example
+├── Frontend/
+│   ├── public/
+│   │   └── honorbo logo.png
+│   ├── src/
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   └── components/
+│   │       ├── About.jsx
+│   │       ├── custom.css
+│   │       ├── DarkVeil.jsx
+│   │       ├── Footer.jsx
+│   │       ├── Generate.jsx
+│   │       ├── Home.jsx
+│   │       ├── Navbar.jsx
+│   │       ├── NotFound.jsx
+│   │       └── Verify.jsx
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── README.md
+│   ├── tailwind.config.js
+│   ├── vercel.json
+│   ├── vite.config.js
+│   └── .env.example
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+└── .all-contributorsrc
+```
+
 ## 📌 Installation
 
 ### Prerequisites
