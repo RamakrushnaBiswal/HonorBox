@@ -7,6 +7,7 @@ import Verify from "./components/Verify";
 import NotFound from "./components/NotFound";
 import DarkVeil from "./components/DarkVeil";
 import About from './components/About';
+import ContactUs from './components/ContactUs';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 
@@ -52,6 +53,8 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/about" element={<About/>} />
+            <Route path="/contact" element={<ContactUs />} />
           </Routes>
         </Router>
       </div>
