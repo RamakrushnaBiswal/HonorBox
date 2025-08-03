@@ -3,6 +3,7 @@ import { FaFileAlt, FaCertificate, FaShieldAlt, FaMagic, FaGithub, FaEnvelope, F
 import {useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import "./custom.css";
+import FAQ from "./FAQ";
 import Footer from "./Footer";
 import Newsletter from "./Newsletter";
 import FeatureCard from "./FeatureCard";
@@ -480,6 +481,7 @@ const Home = () => {
             </div>
           </div>
         </motion.section>
+        <FAQ />
             <Footer />
           </div>
         </div>

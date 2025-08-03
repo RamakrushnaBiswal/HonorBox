@@ -7,6 +7,7 @@ import Verify from "./components/Verify";
 import NotFound from "./components/NotFound";
 import DarkVeil from "./components/DarkVeil";
 import About from './components/About';
+import FAQ from './components/FAQ';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 
@@ -49,6 +50,7 @@ function App() {
             <Route path="/generate" element={<Generate />} />
             <Route path="/verify" element={<Verify />} />
             <Route path="/about" element={<About />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="*" element={<NotFound />} />
