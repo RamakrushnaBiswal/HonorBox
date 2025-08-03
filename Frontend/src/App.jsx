@@ -6,17 +6,29 @@ import Navbar from "./components/Navbar";
 import Verify from "./components/Verify";
 import NotFound from "./components/NotFound";
 import DarkVeil from "./components/DarkVeil";
-import About from './components/About';
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
+import About from "./components/About";
+import SignUp from "./components/SignUp";
+import SignIn from "./components/SignIn";
+import ThemeToggle from "./components/ThemeToggle";
+// ...
+<header className="flex justify-end p-4">
+  <ThemeToggle />
+</header>;
 
 function App() {
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', width: '100vw', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+    <div
+      style={{
+        position: "relative",
+        minHeight: "100vh",
+        width: "100vw",
+        overflow: "hidden",
+      }}
+    >
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
         <DarkVeil />
       </div>
-      <div style={{ position: 'relative', zIndex: 1 }}>
+      <div style={{ position: "relative", zIndex: 1 }}>
         <Router>
           <Navbar />
           <Toaster
