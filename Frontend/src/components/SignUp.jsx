@@ -9,7 +9,6 @@ import DarkVeil from "./DarkVeil";
 import Footer from "./Footer";
 import "./custom.css";
 
-
 const SignUp = () => {
     const [formData, setFormData] = useState({
         name: "",
