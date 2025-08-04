@@ -20,6 +20,8 @@ const Navbar = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showConfirmPasswordModal, setShowConfirmPasswordModal] =
     useState(false);
+  const [showConfirmEmailChange, setShowConfirmEmailChange] = useState(false);
+  const [isEmailChanged, setIsEmailChanged] = useState(false);
 
   const [profilePic, setProfilePic] = useState(user?.profilePic || "");
   const [displayName, setDisplayName] = useState(user?.name || "");
@@ -27,6 +29,13 @@ const Navbar = () => {
   const [email, setEmail] = useState(user?.email || "");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [signature, setSignature] = useState(user?.signature || "");
+  const [accentColor, setAccentColor] = useState(
+    user?.accentColor || "#2563eb"
+  );
+  const [certificateTitle, setCertificateTitle] = useState(
+    user?.certificateTitle || ""
+  );
 
   const navigate = useNavigate();
 
@@ -122,14 +131,13 @@ const Navbar = () => {
 
   const handleChangePassword = () => {
     if (!currentPassword || !newPassword) {
-      setSuccessMessage("Please fill both current and new password.");
+      toast.error("Please fill both current and new password.");
       return;
     }
     setShowConfirmPasswordModal(true);
   };
   const confirmChangePassword = async () => {
     try {
-      // call your backend API to change password here if you want
       console.log("Password updated:", { currentPassword, newPassword });
       toast.success("Password updated successfully!");
       setShowManageModal(false);
@@ -147,17 +155,6 @@ const Navbar = () => {
     setShowDeleteConfirm(false);
     setShowManageModal(false);
   };
-  const [signature, setSignature] = useState(user?.signature || "");
-  const [accentColor, setAccentColor] = useState(
-    user?.accentColor || "#2563eb"
-  ); // default violet
-  const [certificateTitle, setCertificateTitle] = useState(
-    user?.certificateTitle || ""
-  );
-  const [loginActivity, setLoginActivity] = useState([
-    { device: "Chrome", location: "Mumbai, India", date: "2025-08-04" },
-    { device: "Firefox", location: "Delhi, India", date: "2025-08-03" },
-  ]);
 
   const handleSignatureUpload = (e) => {
     const file = e.target.files[0];
@@ -167,8 +164,13 @@ const Navbar = () => {
       reader.readAsDataURL(file);
     }
   };
-
-  const [isEmailChanged, setIsEmailChanged] = useState(false);
+  const handleEmailChange = () => {
+    const updatedUser = { ...user, email };
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    setIsEmailChanged(false);
+    toast.success("Email updated successfully!");
+  };
 
   return (
     <>
@@ -564,11 +566,47 @@ const Navbar = () => {
               />
             </div>
             {isEmailChanged && (
-              <button className="bg-green-600 text-white text-xs px-3 py-1.5 rounded hover:bg-green-700 transition mt-5">
-                Verify
+              <button
+                className="bg-green-600 text-white text-xs px-3 py-1.5 rounded hover:bg-green-700 transition mt-5"
+                onClick={() => setShowConfirmEmailChange(true)}
+              >
+                Change
               </button>
             )}
           </div>
+          {showConfirmEmailChange && (
+            <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+              <div className="bg-[rgba(30,30,40,0.98)] border border-violet-500 text-white rounded-xl shadow-2xl p-6 w-[90%] max-w-sm">
+                <h2 className="text-lg font-semibold text-white mb-3">
+                  Confirm Email Change
+                </h2>
+                <p className="text-sm text-gray-300 mb-5">
+                  Are you sure you want to change your email to:
+                  <br />
+                  <span className="text-violet-300 font-semibold">{email}</span>
+                  ?
+                </p>
+
+                <div className="flex justify-end gap-2 mt-4">
+                  <button
+                    className="px-4 py-2 text-sm bg-white/10 text-gray-300 rounded hover:bg-white/20 transition"
+                    onClick={() => setShowConfirmEmailChange(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="px-4 py-2 text-sm bg-gradient-to-r from-blue-600 to-violet-600 text-white rounded hover:scale-105 transition"
+                    onClick={() => {
+                      handleEmailChange(); // Your existing logic
+                      setShowConfirmEmailChange(false);
+                    }}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           <p className="text-gray-400 text-xs mt-4 mb-1">Change Password</p>
           <input
