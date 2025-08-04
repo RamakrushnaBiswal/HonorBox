@@ -16,7 +16,7 @@ function App() {
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <DarkVeil />
       </div>
-      <div style={{ position: 'relative', zIndex: 1 }}>
+      <div style={{ position: 'relative', zIndex: 20 }}>
         <Router>
           <Navbar />
           <Toaster
