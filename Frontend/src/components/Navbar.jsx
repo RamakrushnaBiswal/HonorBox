@@ -172,7 +172,6 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Navbar */}
       <motion.nav
         className="w-full flex justify-center items-center mt-6 px-2"
         initial={{ opacity: 0, y: -32 }}
@@ -270,7 +269,6 @@ const Navbar = () => {
         </motion.div>
       </motion.nav>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-black/60 flex flex-col items-end md:hidden">
           <div className="w-2/3 max-w-xs bg-[rgba(30,30,40,0.98)] backdrop-blur-md h-full p-8 flex flex-col gap-6 shadow-2xl">
@@ -289,10 +287,7 @@ const Navbar = () => {
             </a>
             {user ? (
               <>
-                {/* Mobile: Show avatar and menu directly */}
-                {/* Mobile: Avatar and actions stacked */}
                 <div className="md:hidden px-4 py-3 border-t border-white/10">
-                  {/* Avatar + Name */}
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 text-white flex items-center justify-center uppercase overflow-hidden">
                       {user.profilePic ? (
@@ -310,7 +305,6 @@ const Navbar = () => {
                     </span>
                   </div>
 
-                  {/* Inline Profile Options */}
                   <div className="flex flex-col gap-1">
                     <button
                       onClick={() => {
@@ -357,7 +351,6 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Customize Profile Modal */}
       {showCustomizeModal && (
         <Modal
           title="🎨 Customize Profile"
@@ -452,7 +445,7 @@ const Navbar = () => {
             onChange={(e) => setBio(e.target.value)}
             className="w-full px-3 py-2 rounded bg-black/20 border border-gray-600 text-white text-sm focus:border-violet-500 transition"
           />
-          {/* Signature Upload */}
+
           <label className="block text-xs text-gray-400 mt-2 mb-1">
             Signature (PNG)-Optional
           </label>
@@ -493,7 +486,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Accent Color */}
           <label className="block text-xs text-gray-400 mt-2 mb-1">
             Accent Color(optional)
           </label>
@@ -504,7 +496,6 @@ const Navbar = () => {
             className="w-16 h-8 border border-gray-600 rounded"
           />
 
-          {/* Certificate Title */}
           <label className="block text-xs text-gray-400 mt-2 mb-1">
             Certificate Title (e.g., Founder, Trainer)- Optional
           </label>
@@ -527,7 +518,6 @@ const Navbar = () => {
         </Modal>
       )}
 
-      {/* Manage Account Modal */}
       {showManageModal && (
         <Modal
           title="🔒 Manage Account"
@@ -595,11 +585,9 @@ const Navbar = () => {
             onChange={(e) => setNewPassword(e.target.value)}
             className="w-full px-3 py-2 rounded bg-black/20 border border-gray-600 text-white text-sm focus:border-violet-500 transition mt-3"
           />
-          {/* Download Data */}
         </Modal>
       )}
 
-      {/* Delete Confirm Modal (no Close button) */}
       {showDeleteConfirm && (
         <Modal
           title="⚠ Confirm Delete Account"
@@ -700,7 +688,6 @@ const Modal = ({
         )}
         <h2 className="text-xl font-semibold text-white">{title}</h2>
       </div>
-      {/* Make content scrollable if it overflows */}
       <div className="flex-1 overflow-auto max-h-[53vh] mb-4 space-y-2 pr-1">
         {children}
       </div>
