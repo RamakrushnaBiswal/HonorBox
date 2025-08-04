@@ -289,18 +289,60 @@ const Navbar = () => {
             </a>
             {user ? (
               <>
-                <span className="text-white font-semibold py-2 px-2 rounded">
-                  {user.name}
-                </span>
-                <button
-                  className="bg-gradient-to-r from-blue-600 to-violet-600 text-white font-semibold py-2 px-4 rounded w-full"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    handleLogout();
-                  }}
-                >
-                  Logout
-                </button>
+                {/* Mobile: Show avatar and menu directly */}
+                {/* Mobile: Avatar and actions stacked */}
+                <div className="md:hidden px-4 py-3 border-t border-white/10">
+                  {/* Avatar + Name */}
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 text-white flex items-center justify-center uppercase overflow-hidden">
+                      {user.profilePic ? (
+                        <img
+                          src={user.profilePic}
+                          alt="avatar"
+                          className="w-10 h-10 object-cover"
+                        />
+                      ) : (
+                        user.name?.charAt(0)
+                      )}
+                    </div>
+                    <span className="text-white font-semibold">
+                      {user.name}
+                    </span>
+                  </div>
+
+                  {/* Inline Profile Options */}
+                  <div className="flex flex-col gap-1">
+                    <button
+                      onClick={() => {
+                        setShowCustomizeModal(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full text-left px-3 py-2 text-white text-sm hover:bg-white/10 rounded"
+                    >
+                      Customize Profile
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCurrentPassword("");
+                        setNewPassword("");
+                        setShowManageModal(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full text-left px-3 py-2 text-white text-sm hover:bg-white/10 rounded"
+                    >
+                      Manage Account
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full text-left px-3 py-2 text-red-400 text-sm hover:bg-white/10 rounded"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
               </>
             ) : (
               <Link
