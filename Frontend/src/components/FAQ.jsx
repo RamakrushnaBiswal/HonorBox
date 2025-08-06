@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const FAQ = () => {
   const faqList = [
@@ -54,26 +55,86 @@ const FAQ = () => {
     },
   ];
 
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggleFAQ = (idx) => {
+    setOpenIndex(openIndex === idx ? null : idx);
+  };
+
+  const arrowVariants = {
+    closed: { rotate: 0, scale: 1 },
+    open: {
+      rotate: 90,
+      scale: [1, 1.3, 1],
+      transition: { duration: 0.4, ease: "easeInOut" },
+    },
+  };
+
   return (
     <section className="max-w-4xl mx-auto p-6 space-y-4">
       <h2 className="text-3xl md:text-4xl font-extrabold text-center text-white mb-8">
         Frequently Asked Questions
       </h2>
+
       {faqList.map((item, idx) => (
-        <details
+        <motion.div
           key={idx}
-          className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 text-white shadow-md transition-all duration-300 ease-in-out"
+          onClick={() => toggleFAQ(idx)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggleFAQ(idx);
+            }
+          }}
+          aria-expanded={openIndex === idx}
+          aria-controls={`faq-answer-${idx}`}
+          aria-labelledby={`faq-question-${idx}`}
+          className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 text-white shadow-md cursor-pointer
+            hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 ease-in-out"
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.02, boxShadow: "0 0 20px rgba(99, 102, 241, 0.7)" }}
         >
-          <summary className="cursor-pointer text-lg font-semibold flex justify-between items-center">
+          <button
+            id={`faq-question-${idx}`}
+            className="w-full text-left text-lg font-semibold flex justify-between items-center focus:outline-none"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFAQ(idx);
+            }}
+            aria-expanded={openIndex === idx}
+            aria-controls={`faq-answer-${idx}`}
+          >
             {item.question}
-            <span className="transition-transform duration-300 group-open:rotate-90">
+            <motion.span
+              aria-hidden="true"
+              variants={arrowVariants}
+              initial="closed"
+              animate={openIndex === idx ? "open" : "closed"}
+              className="inline-block ml-3 text-indigo-400"
+            >
               ▶
-            </span>
-          </summary>
-          <p className="mt-3 text-sm text-white/80 leading-relaxed">
-            {item.answer}
-          </p>
-        </details>
+            </motion.span>
+          </button>
+
+          <AnimatePresence initial={false}>
+            {openIndex === idx && (
+              <motion.div
+                id={`faq-answer-${idx}`}
+                key="content"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="overflow-hidden mt-3"
+                aria-hidden={openIndex !== idx}
+              >
+                <p className="text-sm text-white/80 leading-relaxed">{item.answer}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       ))}
     </section>
   );
