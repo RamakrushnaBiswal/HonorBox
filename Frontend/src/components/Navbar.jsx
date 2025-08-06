@@ -5,8 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaBars, FaTimes } from "react-icons/fa";
 import "./custom.css";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast, Toaster } from "react-hot-toast";
 
 const Navbar = () => {
   const [user, setUser] = useState(() => {
@@ -152,8 +151,12 @@ const Navbar = () => {
 
   const handleDeleteAccount = () => {
     console.log("Delete account confirmed");
+    setUser(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     setShowDeleteConfirm(false);
     setShowManageModal(false);
+    navigate("/signin");
   };
 
   const handleSignatureUpload = (e) => {
@@ -681,15 +684,15 @@ const Navbar = () => {
         </Modal>
       )}
 
-      <ToastContainer
+      <Toaster
         position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
+        toastOptions={{
+          style: {
+            background: "#1f1f2f",
+            color: "#fff",
+          },
+          duration: 3000,
+        }}
       />
     </>
   );
