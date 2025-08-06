@@ -9,6 +9,8 @@ import DarkVeil from "./components/DarkVeil";
 import About from './components/About';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
+import BackToTop from "./components/BackToTop";
+
 
 function App() {
   return (
@@ -53,6 +55,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <BackToTop />
         </Router>
       </div>
     </div>
