@@ -1,6 +1,6 @@
 # HonorBox
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 **HonorBox** is a free and open-source web-based application that allows users to generate and verify certificates effortlessly. It provides a seamless and secure way to issue digital certificates and validate their authenticity.
@@ -150,6 +150,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/RamakrushnaBiswal"><img src="https://avatars.githubusercontent.com/u/125277258?v=4?s=100" width="100px;" alt="Ramakrushna Biswal"/><br /><sub><b>Ramakrushna Biswal</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=RamakrushnaBiswal" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/AdityaJollyy"><img src="https://avatars.githubusercontent.com/u/140686935?v=4?s=100" width="100px;" alt="Aditya Jolly"/><br /><sub><b>Aditya Jolly</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=AdityaJollyy" title="Documentation">📖</a> <a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=AdityaJollyy" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/sagarc123"><img src="https://avatars.githubusercontent.com/u/134862057?v=4?s=100" width="100px;" alt="Sagar Chavan"/><br /><sub><b>Sagar Chavan</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=sagarc123" title="Code">💻</a> <a href="#design-sagarc123" title="Design">🎨</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Mehak1314"><img src="https://avatars.githubusercontent.com/u/178561631?v=4?s=100" width="100px;" alt="Mehak garg"/><br /><sub><b>Mehak garg</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=Mehak1314" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
