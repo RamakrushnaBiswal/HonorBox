@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Home from "./components/Home";
 import Generate from "./components/Generate";
+import Certificate from "./components/Certificate";
 import Navbar from "./components/Navbar";
 import Verify from "./components/Verify";
 import NotFound from "./components/NotFound";
@@ -49,6 +50,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/generate" element={<Generate />} />
+            <Route path="/certificates" element={<Certificate />} />
             <Route path="/verify" element={<Verify />} />
             <Route path="/about" element={<About />} />
             <Route path="/signup" element={<SignUp />} />

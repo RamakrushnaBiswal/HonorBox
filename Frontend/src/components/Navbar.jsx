@@ -111,6 +111,12 @@ const Navbar = () => {
             >
               Home
             </a>
+            <a
+              href="/certificates"
+              className="text-white font-semibold text-base px-2 py-1 transition-transform duration-150 hover:scale-105 hover:underline underline-offset-8"
+            >
+              Certificates
+            </a>
             {user ? (
               <>
                 <span className="text-white mx-2 font-semibold hidden sm:inline">{user.name}</span>
@@ -153,6 +159,13 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
+            </a>
+            <a
+              href="/certificates"
+              className="text-white font-semibold text-lg py-2 px-2 rounded transition hover:bg-white/10"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Certificates
             </a>
             {user ? (
               <>
