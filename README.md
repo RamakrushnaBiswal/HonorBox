@@ -1,6 +1,6 @@
 # HonorBox
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 **HonorBox** is a free and open-source web-based application that allows users to generate and verify certificates effortlessly. It provides a seamless and secure way to issue digital certificates and validate their authenticity.
@@ -153,6 +153,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Mehak1314"><img src="https://avatars.githubusercontent.com/u/178561631?v=4?s=100" width="100px;" alt="Mehak garg"/><br /><sub><b>Mehak garg</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=Mehak1314" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Sindhura-Karumuri"><img src="https://avatars.githubusercontent.com/u/169550646?v=4?s=100" width="100px;" alt="Sindhura Karumuri"/><br /><sub><b>Sindhura Karumuri</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=Sindhura-Karumuri" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
