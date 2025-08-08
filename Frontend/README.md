@@ -3,6 +3,7 @@ An open-source, responsive, and interactive frontend for HonorBox, a platform fo
 
 ## ✨ Features
 - ✔️ Generate Certificates: Instant creation of certificates with customizable backgrounds.
+- 📋 Certificate Management: View, search, filter, and manage all generated certificates.
 - 🔍 Verify Certificates: Validate certificates via unique ID lookup.
 - 🌈 DarkVeil Visuals: Real-time GLSL-powered canvas background.
 - 🔒 Google OAuth: Secure login flow.
@@ -43,10 +44,10 @@ frontend/
 ├── src/
 │   ├── components/         # React components
 │   │   ├── About.jsx       # About page
+│   │   ├── Certificate.jsx # Certificate management page
 │   │   ├── DarkVeil.jsx    # WebGL background canvas
-│   │   ├── Generate.jsx    # Certificate generation 
-|   |   ├── custom.css      # Additional styles
-form
+│   │   ├── Generate.jsx    # Certificate generation form
+│   │   ├── custom.css      # Additional styles
 │   │   ├── Home.jsx        # Landing page
 │   │   ├── Navbar.jsx      # Navigation bar with Google login
 │   │   ├── Verify.jsx      # Certificate verification form
