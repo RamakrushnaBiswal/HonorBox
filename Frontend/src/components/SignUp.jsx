@@ -33,62 +33,75 @@ const SignUp = () => {
         setError("");
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError("");
-        setSuccess("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
 
-        // Basic validation
-        if (formData.password !== formData.confirmPassword) {
-            toast.error("Passwords do not match");
-            setLoading(false);
-            return;
+    const { name, email, password, confirmPassword } = formData;
+
+   
+    if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
+        toast.error("All fields are required");
+        setLoading(false);
+        return;
+    }
+
+  
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        toast.error("Please enter a valid email address");
+        setLoading(false);
+        return;
+    }
+
+    
+    if (password !== confirmPassword) {
+        toast.error("Passwords do not match");
+        setLoading(false);
+        return;
+    }
+
+    
+    const passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
+    if (!passwordPattern.test(password)) {
+        toast.error("Password must be at least 8 characters, include a number and a special character");
+        setLoading(false);
+        return;
+    }
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/auth/signup`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
+            toast.success("Account created successfully! Redirecting...");
+            setSuccess("Account created successfully! Redirecting...");
+            setTimeout(() => {
+                navigate("/");
+                window.location.reload();
+            }, 1500);
+        } else {
+            toast.error(data.message || "Failed to create account");
+            setError(data.message || "Failed to create account");
         }
+    } catch (error) {
+        console.error("Signup error:", error);
+        toast.error("Network error. Please try again.");
+        setError("Network error. Please try again.");
+    } finally {
+        setLoading(false);
+    }
+};
 
-        if (formData.password.length < 6) {
-            toast.error("Password must be at least 6 characters long");
-            setLoading(false);
-            return;
-        }
-
-        try {
-            const response = await fetch(`${BACKEND_URL}/auth/signup`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    password: formData.password
-                }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                // Store token and user data
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("user", JSON.stringify(data.user));
-                toast.success("Account created successfully! Redirecting...");
-                setSuccess("Account created successfully! Redirecting...");
-                setTimeout(() => {
-                    navigate("/");
-                    window.location.reload();
-                }, 1500);
-            } else {
-                toast.error(data.message || "Failed to create account");
-                setError(data.message || "Failed to create account");
-            }
-        } catch (error) {
-            console.error("Signup error:", error);
-            toast.error("Network error. Please try again.");
-            setError("Network error. Please try again.");
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const saveUserToDB = async (userData) => {
         try {
