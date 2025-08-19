@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
@@ -39,9 +39,7 @@ const SignIn = () => {
         try {
             const response = await fetch(`${BACKEND_URL}/auth/signin`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
 
@@ -74,13 +72,10 @@ const SignIn = () => {
         try {
             const response = await fetch(`${BACKEND_URL}/auth/user`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData),
             });
-            const data = await response.json();
-            console.log(data);
+            await response.json();
         } catch (error) {
             console.error("Error saving user:", error);
         }
@@ -99,11 +94,11 @@ const SignIn = () => {
     };
 
     return (
-        <div style={{ width: '100%', minHeight: '100vh', position: 'relative', overflow: 'visible' }}>
-            <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <div style={{ width: "100%", minHeight: "100vh", position: "relative", overflow: "visible" }}>
+            <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
                 <DarkVeil />
             </div>
-            <div style={{ position: 'relative', zIndex: 1 }} className="flex flex-col items-center justify-center min-h-screen py-12 px-4">
+            <div style={{ position: "relative", zIndex: 1 }} className="flex flex-col items-center justify-center min-h-screen py-12 px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -151,8 +146,6 @@ const SignIn = () => {
                                 </button>
                             </div>
 
-                            {/* ...existing code... (toasts used instead of inline messages) */}
-
                             {/* Submit Button */}
                             <button
                                 type="submit"
@@ -162,6 +155,32 @@ const SignIn = () => {
                                 {loading ? "Signing In..." : "Sign In"}
                             </button>
                         </form>
+
+                        {/* Animated Success/Error Message */}
+                        <AnimatePresence>
+                            {success && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.4 }}
+                                    className="mt-4 text-center text-green-300 bg-green-800/30 rounded-lg py-2 px-4 text-sm"
+                                >
+                                    {success}
+                                </motion.div>
+                            )}
+                            {error && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.4 }}
+                                    className="mt-4 text-center text-red-300 bg-red-800/30 rounded-lg py-2 px-4 text-sm"
+                                >
+                                    {error}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
 
                         {/* Divider */}
                         <div className="mt-6 flex items-center">
