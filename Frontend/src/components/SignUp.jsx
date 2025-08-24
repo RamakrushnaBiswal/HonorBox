@@ -21,6 +21,7 @@ const SignUp = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [fieldErrors, setFieldErrors] = useState({});
 
     const navigate = useNavigate();
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -32,74 +33,105 @@ const SignUp = () => {
         });
         setError("");
     };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+  setSuccess("");
+  setFieldErrors({}); // reset field errors
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setSuccess("");
+  // Trim and canonicalize inputs
+  const nameTrimmed = formData.name.trim();
+  const emailTrimmed = formData.email.trim().toLowerCase();
+  const password = formData.password;
+  const confirmPassword = formData.confirmPassword;
 
-    const { name, email, password, confirmPassword } = formData;
+  // Validate required fields
+  let hasError = false;
+  if (!nameTrimmed) {
+    setFieldErrors(prev => ({ ...prev, name: "Name is required" }));
+    hasError = true;
+  }
+  if (!emailTrimmed) {
+    setFieldErrors(prev => ({ ...prev, email: "Email is required" }));
+    hasError = true;
+  }
+  if (!password) {
+    setFieldErrors(prev => ({ ...prev, password: "Password is required" }));
+    hasError = true;
+  }
+  if (!confirmPassword) {
+    setFieldErrors(prev => ({ ...prev, confirmPassword: "Please confirm your password" }));
+    hasError = true;
+  }
+  if (hasError) {
+    toast.error("Please fill in all required fields");
+    return; // stop submission
+  }
 
-   
-    if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
-        toast.error("All fields are required");
-        setLoading(false);
-        return;
-    }
+  // Validate email format
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(emailTrimmed)) {
+    setFieldErrors(prev => ({ ...prev, email: "Invalid email address" }));
+    toast.error("Please enter a valid email address");
+    return;
+  }
 
-  
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-        toast.error("Please enter a valid email address");
-        setLoading(false);
-        return;
-    }
+  // Validate password match
+  if (password !== confirmPassword) {
+    setFieldErrors(prev => ({ ...prev, confirmPassword: "Passwords do not match" }));
+    toast.error("Passwords do not match");
+    return;
+  }
 
-    
-    if (password !== confirmPassword) {
-        toast.error("Passwords do not match");
-        setLoading(false);
-        return;
-    }
+  // Validate password strength
+  const passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
+  if (!passwordPattern.test(password)) {
+    setFieldErrors(prev => ({
+      ...prev,
+      password: "Password must be at least 8 characters, include a number and a special character"
+    }));
+    toast.error("Password must be at least 8 characters, include a number and a special character");
+    return;
+  }
 
-    
-    const passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
-    if (!passwordPattern.test(password)) {
-        toast.error("Password must be at least 8 characters, include a number and a special character");
-        setLoading(false);
-        return;
-    }
+  // All validations passed, start network request
+  setLoading(true);
+  try {
+    const response = await fetch(`${BACKEND_URL}/auth/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: nameTrimmed, email: emailTrimmed, password }),
+    });
 
+    // Safe response parsing
+    let data = null;
     try {
-        const response = await fetch(`${BACKEND_URL}/auth/signup`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, password }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("user", JSON.stringify(data.user));
-            toast.success("Account created successfully! Redirecting...");
-            setSuccess("Account created successfully! Redirecting...");
-            setTimeout(() => {
-                navigate("/");
-                window.location.reload();
-            }, 1500);
-        } else {
-            toast.error(data.message || "Failed to create account");
-            setError(data.message || "Failed to create account");
-        }
-    } catch (error) {
-        console.error("Signup error:", error);
-        toast.error("Network error. Please try again.");
-        setError("Network error. Please try again.");
-    } finally {
-        setLoading(false);
+      const isJson = response.headers.get("content-type")?.includes("application/json");
+      data = isJson ? await response.json() : null;
+    } catch {
+      data = null;
     }
+
+    if (response.ok) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      toast.success("Account created successfully! Redirecting...");
+      setSuccess("Account created successfully! Redirecting...");
+      setTimeout(() => {
+        navigate("/");
+        window.location.reload();
+      }, 1500);
+    } else {
+      toast.error(data?.message || "Failed to create account");
+      setError(data?.message || "Failed to create account");
+    }
+  } catch (error) {
+    console.error("Signup error:", error);
+    toast.error("Network error. Please try again.");
+    setError("Network error. Please try again.");
+  } finally {
+    setLoading(false);
+  }
 };
 
 
@@ -161,155 +193,166 @@ const SignUp = () => {
         setError("Google signup failed. Please try again.");
     };
 
-    return (
-        <div style={{ width: '100%', minHeight: '100vh', position: 'relative', overflow: 'visible' }}>
-            <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-                <DarkVeil />
-            </div>
-            <div style={{ position: 'relative', zIndex: 1 }} className="flex flex-col items-center justify-center min-h-screen py-12 px-4">
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="w-full max-w-md"
-                >
-                    <div className="rounded-2xl bg-[rgba(255,255,255,0.10)] backdrop-blur-md border border-[rgba(180,120,255,0.18)] shadow-2xl p-8">
-                        <h1 className="text-3xl font-extrabold text-center mb-8 text-white drop-shadow-lg tracking-tight">
-                            Create Account
-                        </h1>
-
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            {/* Name Input */}
-                            <div className="relative">
-                                <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    placeholder="Full Name"
-                                    required
-                                    className="w-full pl-10 pr-4 py-3 bg-white/80 text-gray-900 font-semibold rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
-                                />
-                            </div>
-
-                            {/* Email Input */}
-                            <div className="relative">
-                                <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    placeholder="Email Address"
-                                    required
-                                    className="w-full pl-10 pr-4 py-3 bg-white/80 text-gray-900 font-semibold rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
-                                />
-                            </div>
-
-                            {/* Password Input */}
-                            <div className="relative">
-                                <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    placeholder="Password"
-                                    required
-                                    className="w-full pl-10 pr-12 py-3 bg-white/80 text-gray-900 font-semibold rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                                >
-                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                </button>
-                            </div>
-
-                            {/* Confirm Password Input */}
-                            <div className="relative">
-                                <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                                <input
-                                    type={showConfirmPassword ? "text" : "password"}
-                                    name="confirmPassword"
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
-                                    placeholder="Confirm Password"
-                                    required
-                                    className="w-full pl-10 pr-12 py-3 bg-white/80 text-gray-900 font-semibold rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                                >
-                                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                                </button>
-                            </div>
-
-                            {/* Error/Success messages are now shown via react-hot-toast */}
-
-                            {/* Submit Button */}
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-600 to-violet-600 text-white text-lg font-extrabold shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {loading ? "Creating Account..." : "Sign Up"}
-                            </button>
-                        </form>
-
-                        {/* Divider */}
-                        <div className="mt-6 flex items-center">
-                            <div className="flex-1 border-t border-white/20"></div>
-                            <span className="px-4 text-white/60 text-sm">or</span>
-                            <div className="flex-1 border-t border-white/20"></div>
-                        </div>
-
-                        {/* Google Login */}
-                        <div className="mt-6 w-full">
-                            <GoogleLogin
-                                onSuccess={handleGoogleSuccess}
-                                onError={handleGoogleError}
-                                theme="filled_blue"
-                                text="signup_with"
-                                shape="rectangular"
-                                size="large"
-                                width="100%"
-                                disabled={loading}
-                            />
-                        </div>
-
-                        {/* Sign In Link */}
-                        <div className="mt-6 text-center">
-                            <p className="text-white/80">
-                                Already have an account?{" "}
-                                <Link
-                                    to="/signin"
-                                    className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
-                                >
-                                    Sign In
-                                </Link>
-                            </p>
-                        </div>
-
-                        {/* Back to Home */}
-                        <div className="mt-4 text-center">
-                            <Link
-                                to="/"
-                                className="text-white/70 hover:text-white text-sm transition-colors"
-                            >
-                                ← Back to Home
-                            </Link>
-                        </div>
-                    </div>
-                </motion.div>
-            </div>
-            <Footer />
+ return (
+    <div style={{ width: '100%', minHeight: '100vh', position: 'relative', overflow: 'visible' }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+            <DarkVeil />
         </div>
-    );
+        <div style={{ position: 'relative', zIndex: 1 }} className="flex flex-col items-center justify-center min-h-screen py-12 px-4">
+            <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="w-full max-w-md"
+            >
+                <div className="rounded-2xl bg-[rgba(255,255,255,0.10)] backdrop-blur-md border border-[rgba(180,120,255,0.18)] shadow-2xl p-8">
+                    <h1 className="text-3xl font-extrabold text-center mb-8 text-white drop-shadow-lg tracking-tight">
+                        Create Account
+                    </h1>
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* Name Input */}
+                        <div className="relative">
+                            <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                placeholder="Full Name"
+                                required
+                                className="w-full pl-10 pr-4 py-3 bg-white/80 text-gray-900 font-semibold rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                            />
+                            {fieldErrors.name && (
+                                <p className="text-red-400 text-sm mt-1">{fieldErrors.name}</p>
+                            )}
+                        </div>
+
+                        {/* Email Input */}
+                        <div className="relative">
+                            <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder="Email Address"
+                                required
+                                className="w-full pl-10 pr-4 py-3 bg-white/80 text-gray-900 font-semibold rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                            />
+                            {fieldErrors.email && (
+                                <p className="text-red-400 text-sm mt-1">{fieldErrors.email}</p>
+                            )}
+                        </div>
+
+                        {/* Password Input */}
+                        <div className="relative">
+                            <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Password"
+                                required
+                                className="w-full pl-10 pr-12 py-3 bg-white/80 text-gray-900 font-semibold rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+                            {fieldErrors.password && (
+                                <p className="text-red-400 text-sm mt-1">{fieldErrors.password}</p>
+                            )}
+                        </div>
+
+                        {/* Confirm Password Input */}
+                        <div className="relative">
+                            <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                type={showConfirmPassword ? "text" : "password"}
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                placeholder="Confirm Password"
+                                required
+                                className="w-full pl-10 pr-12 py-3 bg-white/80 text-gray-900 font-semibold rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                            >
+                                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+                            {fieldErrors.confirmPassword && (
+                                <p className="text-red-400 text-sm mt-1">{fieldErrors.confirmPassword}</p>
+                            )}
+                        </div>
+
+                        {/* Submit Button */}
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-600 to-violet-600 text-white text-lg font-extrabold shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {loading ? "Creating Account..." : "Sign Up"}
+                        </button>
+                    </form>
+
+                    {/* Divider */}
+                    <div className="mt-6 flex items-center">
+                        <div className="flex-1 border-t border-white/20"></div>
+                        <span className="px-4 text-white/60 text-sm">or</span>
+                        <div className="flex-1 border-t border-white/20"></div>
+                    </div>
+
+                    {/* Google Login */}
+                    <div className="mt-6 w-full">
+                        <GoogleLogin
+                            onSuccess={handleGoogleSuccess}
+                            onError={handleGoogleError}
+                            theme="filled_blue"
+                            text="signup_with"
+                            shape="rectangular"
+                            size="large"
+                            width="100%"
+                            disabled={loading}
+                        />
+                    </div>
+
+                    {/* Sign In Link */}
+                    <div className="mt-6 text-center">
+                        <p className="text-white/80">
+                            Already have an account?{" "}
+                            <Link
+                                to="/signin"
+                                className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
+                            >
+                                Sign In
+                            </Link>
+                        </p>
+                    </div>
+
+                    {/* Back to Home */}
+                    <div className="mt-4 text-center">
+                        <Link
+                            to="/"
+                            className="text-white/70 hover:text-white text-sm transition-colors"
+                        >
+                            ← Back to Home
+                        </Link>
+                    </div>
+                </div>
+            </motion.div>
+        </div>
+        <Footer />
+    </div>
+);
+
 };
 
 export default SignUp;
