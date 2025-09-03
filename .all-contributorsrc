@@ -99,6 +99,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Soumyosish",
+      "name": "Soumyosish Pal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/144246473?v=4",
+      "profile": "https://github.com/Soumyosish",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
