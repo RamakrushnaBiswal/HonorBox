@@ -232,7 +232,7 @@ const Footer = () => {
                 href="mailto:support@honarbox.com"
                 className="text-white/70 hover:text-blue-400 transition-colors duration-300 text-sm py-1"
               >
-                support@honarbox.com
+                contact@honarbox.com
               </a>
 
               <a
