@@ -5,6 +5,12 @@ A robust certificate generation and verification system built with Node.js, Expr
 - 🔒 Google Authentication integration
 - 🖼️ Image upload and retrieval
 - 🔍 Certificate verification through web and API
+- 💌 Newsletter subscription via email  
+  - Allows users to subscribe to updates and announcements.  
+  - Validates email format and checks if the email exists.  
+  - Limits subscriptions to 3 per email domain.  
+  - Prevents duplicate subscriptions and verifies emails in real-world using external api.
+  - Subscription mail send to that email
 
 ## 📁 Project Structure
 ```bash
@@ -42,6 +48,7 @@ Google Auth user registration & lookup
 |--------|-------------------------------|----------------------------------|
 | POST   | `/api/generate`               | Generate a new certificate       |
 | POST   | `/api/send-certificate`       | Send certificate via email       |
+| POST   | `/api/newsletter/subscribe`   | Subscribe via email              |   
 | GET    | `/api/certificates`           | Get all certificates             |
 | GET    | `/api/verify/:uniqueId`       | Verify certificate via API       |
 | GET    | `/api/certificate/:uniqueId`  | Verify certificate (HTML view)   |
@@ -109,6 +116,12 @@ POST /api/send-certificate
   "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
 }
 ```
+## 💌 Example Newsletter Subscription Payload
+```json
+POST /api/newsletter/subscribe
+{
+  "email": "user@example.com"
+}
 
 ## 📃 License
 This project is licensed under the MIT License.

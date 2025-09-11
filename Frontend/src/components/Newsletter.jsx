@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import toast from "react-hot-toast";
 
 const Newsletter = () => {
   const ref = useRef(null);
@@ -8,9 +9,44 @@ const Newsletter = () => {
   const [email, setEmail] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+  // 📌 Subscribe handler (same pattern as SignIn)
+  const handleSubscribe = async () => {
+    if (!email) {
+      toast.error("Please enter your email.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/newsletter/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(data.message || "Subscribed successfully!");
+        setEmail("");
+      } else {
+        toast.error(data.message || "Subscription failed.");
+      }
+    } catch (error) {
+      console.error("Subscription error:", error);
+      toast.error("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <motion.section 
+    <motion.section
       ref={ref}
       className="px-4 sm:px-6 lg:px-12 xl:px-16 mt-16 mx-auto w-full max-w-7xl relative"
       initial={{ opacity: 0, y: 60 }}
@@ -47,7 +83,7 @@ const Newsletter = () => {
         ))}
       </div>
 
-      <motion.div 
+      <motion.div
         className="w-full border border-white/10 rounded-3xl relative overflow-hidden group cursor-pointer"
         style={{
           background: 'linear-gradient(135deg, rgba(99, 17, 224, 0.3) 0%, rgba(217, 217, 217, 0.15) 100%)',
@@ -58,7 +94,7 @@ const Newsletter = () => {
         initial={{ scale: 0.9, opacity: 0 }}
         animate={isInView ? { scale: 1, opacity: 1 } : {}}
         transition={{ duration: 0.6, delay: 0.2 }}
-        whileHover={{ 
+        whileHover={{
           scale: 1.02,
           y: -8,
           boxShadow: '0 32px 64px -12px rgba(99, 17, 224, 0.4), 0 0 0 1px rgba(139, 92, 246, 0.3)',
@@ -87,28 +123,28 @@ const Newsletter = () => {
         {/* Fully Responsive Centered Layout */}
         <div className="flex flex-col md:flex-row justify-between gap-6 h-full relative z-1">
           {/* Title Section */}
-          <motion.div 
+          <motion.div
             className="flex flex-col items-center text-center max-w-2xl"
             initial={{ opacity: 0, y: -30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <motion.h2 
+            <motion.h2
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white font-bold font-inter mb-3 sm:mb-4 leading-tight group-hover:text-white/95 transition-colors duration-300"
-              whileHover={{ 
+              whileHover={{
                 scale: 1.02,
                 textShadow: '0 0 20px rgba(139, 92, 246, 0.5)'
               }}
               transition={{ duration: 0.3 }}
             >
               Subscribe our{' '}
-              <motion.span 
+              <motion.span
                 className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent block sm:inline"
-                animate={{ 
+                animate={{
                   backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
                 }}
-                transition={{ 
-                  duration: 3, 
+                transition={{
+                  duration: 3,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
@@ -117,7 +153,7 @@ const Newsletter = () => {
                 Newsletter
               </motion.span>
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-white/80 text-sm sm:text-base md:text-lg max-w-lg mx-auto leading-relaxed px-2"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
@@ -128,39 +164,41 @@ const Newsletter = () => {
           </motion.div>
 
           {/* Form Section */}
-          <motion.div 
+          <motion.div
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-lg justify-center items-center px-4 sm:px-0"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             <motion.input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              className="w-full sm:flex-1 sm:max-w-xs md:max-w-sm h-11 sm:h-12 border border-white/30 bg-white/10 backdrop-blur-sm text-white placeholder-white/70 text-sm sm:text-base font-normal font-inter focus:border-white/80 focus:bg-white/20 hover:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl px-3 sm:px-4 outline-none"
-              placeholder="Enter your email"
-              whileFocus={{ 
-                scale: 1.02,
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            className="w-full sm:flex-1 sm:max-w-xs md:max-w-sm h-11 sm:h-12 border border-white/30 bg-white/10 backdrop-blur-sm text-white placeholder-white/70 text-sm sm:text-base font-normal font-inter focus:border-white/80 focus:bg-white/20 hover:border-white/50 transition-all duration-300 rounded-lg sm:rounded-xl px-3 sm:px-4 outline-none"
+            placeholder="Enter your email"
+            whileFocus={{
+              scale: 1.02,
                 boxShadow: '0 0 20px rgba(139, 92, 246, 0.3)'
-              }}
-              animate={{
-                borderColor: isFocused 
+            }}
+            animate={{
+              borderColor: isFocused
                   ? 'rgba(139, 92, 246, 0.8)' 
                   : 'rgba(255, 255, 255, 0.3)'
-              }}
-              transition={{ duration: 0.3 }}
-            />
-            
-            <motion.button 
+            }}
+            transition={{ duration: 0.3 }}
+          />
+
+            <motion.button
               className="w-full sm:w-auto sm:flex-shrink-0 px-4 sm:px-6 md:px-8 h-11 sm:h-12 border border-white/30 bg-white/10 backdrop-blur-sm text-white text-sm sm:text-base font-medium font-inter rounded-lg sm:rounded-xl hover:bg-white/90 hover:text-purple-900 hover:border-white transition-all duration-300 relative overflow-hidden whitespace-nowrap"
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 boxShadow: '0 10px 30px rgba(139, 92, 246, 0.3)'
               }}
               whileTap={{ scale: 0.98 }}
+              onClick={handleSubscribe}
+              disabled={loading}
               onHoverStart={() => setIsButtonHovered(true)}
               onHoverEnd={() => setIsButtonHovered(false)}
             >
@@ -236,7 +274,7 @@ const Newsletter = () => {
             delay: 0.5
           }}
         />
-       </motion.div>
+      </motion.div>
     </motion.section>
   );
 };
