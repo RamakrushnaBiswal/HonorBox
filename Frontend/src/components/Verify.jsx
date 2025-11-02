@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DarkVeil from "./DarkVeil";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Verify = () => {
   const [certificateId, setCertificateId] = useState("");
@@ -58,7 +59,12 @@ const Verify = () => {
             onClick={handleVerify}
             disabled={loading}
           >
-            {loading ? "Verifying..." : "Verify"}
+            {loading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Verifying...</span>
+              </div>
+            ) : "Verify"}
           </button>
           {error && <p className="text-red-400 mt-3 text-center font-semibold">{error}</p>}
           {certificateData && (
