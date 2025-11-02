@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import toast from "react-hot-toast";
+import LoadingSpinner from './LoadingSpinner';
 
 const Newsletter = () => {
   const ref = useRef(null);
@@ -214,7 +215,14 @@ const Newsletter = () => {
                 } : {}}
                 transition={{ duration: 0.8, repeat: isButtonHovered ? Infinity : 0 }}
               />
-              <span className="relative z-10">Subscribe</span>
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Subscribing...</span>
+                  </>
+                ) : "Subscribe"}
+              </span>
             </motion.button>
           </motion.div>
         </div>
