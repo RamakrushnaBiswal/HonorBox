@@ -7,6 +7,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import DarkVeil from "./DarkVeil";
 import Footer from "./Footer";
+import LoadingSpinner from "./LoadingSpinner";
 import "./custom.css";
 
 const SignUp = () => {
@@ -299,7 +300,12 @@ const handleSubmit = async (e) => {
                             disabled={loading}
                             className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-600 to-violet-600 text-white text-lg font-extrabold shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? "Creating Account..." : "Sign Up"}
+                            {loading ? (
+                                <div className="flex items-center justify-center gap-2">
+                                    <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                                    <span>Creating Account...</span>
+                                </div>
+                            ) : "Sign Up"}
                         </button>
                     </form>
 

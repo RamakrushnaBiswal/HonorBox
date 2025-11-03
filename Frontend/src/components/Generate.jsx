@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import QRCode from "qrcode";
 import DarkVeil from "./DarkVeil";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Generate = () => {
   const [name, setName] = useState("");
@@ -12,6 +13,7 @@ const Generate = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [uploadedImage, setUploadedImage] = useState("");
+  const [fetchingImage, setFetchingImage] = useState(true);
 
   const canvasRef = useRef(null);
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -22,6 +24,7 @@ const Generate = () => {
 
   const fetchLatestImage = async () => {
     try {
+      setFetchingImage(true);
       const response = await fetch(`${BACKEND_URL}/api/get-images`);
       const data = await response.json();
       if (response.ok) {
@@ -29,6 +32,8 @@ const Generate = () => {
       }
     } catch (error) {
       console.error("Error fetching latest image:", error);
+    } finally {
+      setFetchingImage(false);
     }
   };
 
@@ -189,7 +194,13 @@ const Generate = () => {
           {uploadedImage && (
             <div className="mt-4">
               <h2 className="text-lg font-semibold text-white/90">Uploaded Image:</h2>
-              <img src={uploadedImage} alt="Uploaded" className="w-64 h-64 rounded-lg border shadow-md" />
+              {fetchingImage ? (
+                <div className="w-64 h-64 rounded-lg border shadow-md flex items-center justify-center bg-white/10">
+                  <LoadingSpinner size="small" message="Loading image..." />
+                </div>
+              ) : (
+                <img src={uploadedImage} alt="Uploaded" className="w-64 h-64 rounded-lg border shadow-md" />
+              )}
             </div>
           )}
           <button
@@ -197,7 +208,12 @@ const Generate = () => {
             onClick={handleGenerate}
             disabled={loading}
           >
-            {loading ? "Generating..." : "Generate Certificate"}
+            {loading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Generating...</span>
+              </div>
+            ) : "Generate Certificate"}
           </button>
           {message && <p className="text-green-400 mt-4 text-center font-semibold">{message}</p>}
         </div>
