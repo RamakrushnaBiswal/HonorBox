@@ -207,6 +207,12 @@ const Navbar = () => {
             >
               Home
             </a>
+            <a
+              href="/certificates"
+              className="text-white font-semibold text-base px-2 py-1 transition-transform duration-150 hover:scale-105 hover:underline underline-offset-8"
+            >
+              Certificates
+            </a>
             {user ? (
               <div className="relative z-50">
                 <button
@@ -289,6 +295,13 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
+            </a>
+            <a
+              href="/certificates"
+              className="text-white font-semibold text-lg py-2 px-2 rounded transition hover:bg-white/10"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Certificates
             </a>
             {user ? (
               <>
